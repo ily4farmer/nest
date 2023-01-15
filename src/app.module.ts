@@ -8,17 +8,23 @@ import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { Category } from './category/category.model';
 import { Product } from './product/product.model';
+import { ConfigModule } from '@nestjs/config';
+import { RolesModule } from './roles/roles.module';
+import { Role } from './roles/roles.model';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['.development.env', '.production.env'],
+    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.POSTGRES_HOST,
       port: Number(process.env.POSTGRESS_PORT),
-      username: 'postgres',
-      password: 'root',
-      database: 'nest',
-      models: [User, Category, Product],
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRESS_PASSWORD,
+      database: process.env.POSTGRES_DB,
+      models: [User, Category, Product, Role],
       autoLoadModels: true,
       synchronize: true,
       define: {
@@ -28,6 +34,7 @@ import { Product } from './product/product.model';
     UsersModule,
     CategoryModule,
     ProductModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

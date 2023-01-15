@@ -10,12 +10,12 @@ export class CategoryService {
     @InjectModel(Category) private categoryRepository: typeof Category,
   ) {}
 
-  async create(createCategoryDto: CreateCategoryDto) {
+  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     const category = await this.categoryRepository.create(createCategoryDto);
     return category;
   }
 
-  async findAll() {
+  async findAll(): Promise<Category[]> {
     const categories = await this.categoryRepository.findAll();
     return categories;
   }
